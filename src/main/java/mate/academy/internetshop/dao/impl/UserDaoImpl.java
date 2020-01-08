@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> get(Long id) {
-        return Optional.ofNullable(Storage.users
+        return Optional.of(Storage.users
                 .stream()
                 .filter(user -> user.getId().equals(id))
                 .findFirst()
@@ -41,7 +41,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean deleteById(Long id) {
         Optional<User> toDelete = get(id);
-        return toDelete.map(Storage.users::remove).orElse(false);
+        return Storage.users.remove(toDelete.get());
     }
 
     @Override

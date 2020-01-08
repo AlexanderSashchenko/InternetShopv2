@@ -34,12 +34,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order update(Order order) throws NoSuchElementException {
-        if (orderDao.get(order.getId()).isPresent()) {
-            orderDao.update(order);
-            return orderDao.get(order.getId()).get();
-        } else {
-            throw new NoSuchElementException("Can't find order: " + order.toString());
-        }
+        orderDao.update(order);
+        return orderDao.get(order.getId()).get();
     }
 
     @Override
@@ -71,6 +67,6 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setUserId(user.getId());
         newOrder.setItems(items);
         orderDao.create(newOrder);
-        return newOrder;
+        return create(newOrder);
     }
 }

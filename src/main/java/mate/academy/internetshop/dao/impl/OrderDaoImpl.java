@@ -22,7 +22,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> get(Long id) {
-        return Optional.ofNullable(Storage.orders
+        return Optional.of(Storage.orders
                 .stream()
                 .filter(order -> order.getId().equals(id))
                 .findFirst()
@@ -42,7 +42,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean deleteById(Long id) {
         Optional<Order> toDelete = get(id);
-        return toDelete.map(Storage.orders::remove).orElse(false);
+        return Storage.orders.remove(toDelete.get());
     }
 
     @Override

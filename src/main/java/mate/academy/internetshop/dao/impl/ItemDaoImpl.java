@@ -22,7 +22,7 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Optional<Item> get(Long id) {
-        return Optional.ofNullable(Storage.items
+        return Optional.of(Storage.items
                 .stream()
                 .filter(item -> item.getId().equals(id))
                 .findFirst()
@@ -42,7 +42,7 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public boolean deleteById(Long id) {
         Optional<Item> toDelete = get(id);
-        return toDelete.map(Storage.items::remove).orElse(false);
+        return Storage.items.remove(toDelete.get());
     }
 
     @Override

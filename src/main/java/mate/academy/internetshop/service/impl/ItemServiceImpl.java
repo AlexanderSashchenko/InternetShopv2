@@ -31,12 +31,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item update(Item item) throws NoSuchElementException {
-        if (itemDao.get(item.getId()).isPresent()) {
-            itemDao.update(item);
-            return itemDao.get(item.getId()).get();
-        } else {
-            throw new NoSuchElementException("Can't find item: " + item.toString());
-        }
+        itemDao.update(item);
+        return itemDao.get(item.getId()).get();
     }
 
     @Override

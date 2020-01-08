@@ -22,7 +22,7 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Optional<Bucket> get(Long id) {
-        return Optional.ofNullable(Storage.buckets.stream()
+        return Optional.of(Storage.buckets.stream()
                 .filter(b -> b.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Can't find bucket with id: "
@@ -41,7 +41,7 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public boolean deleteById(Long id) {
         Optional<Bucket> toDelete = get(id);
-        return toDelete.map(Storage.buckets::remove).orElse(false);
+        return Storage.buckets.remove(toDelete.get());
     }
 
     @Override

@@ -32,12 +32,8 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket update(Bucket bucket) throws NoSuchElementException {
-        if (bucketDao.get(bucket.getId()).isPresent()) {
-            bucketDao.update(bucket);
-            return bucketDao.get(bucket.getId()).get();
-        } else {
-            throw new NoSuchElementException("Can't find bucket: " + bucket.toString());
-        }
+        bucketDao.update(bucket);
+        return bucketDao.get(bucket.getId()).get();
     }
 
     @Override
