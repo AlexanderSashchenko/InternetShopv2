@@ -8,11 +8,11 @@ public interface DaoGeneric<T, N> {
 
     Optional<T> get(N id);
 
-    Optional<T> update(T entity);
+    T update(T entity);
 
-    boolean delete(N id);
+    boolean deleteById(N id);
 
-    boolean deleteByEntity(T entity);
+    boolean delete(T entity);
 
     List<T> getAllEntities();
 }

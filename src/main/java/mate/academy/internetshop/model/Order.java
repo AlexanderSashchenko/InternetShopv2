@@ -7,10 +7,10 @@ public class Order {
 
     private Long id;
     private Long userId;
-    private List<Item> itemsInOrder;
+    private List<Item> items;
 
     public Order() {
-        this.itemsInOrder = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     public Long getId() {
@@ -29,11 +29,16 @@ public class Order {
         this.id = id;
     }
 
-    public List<Item> getItemsInOrder() {
-        return itemsInOrder;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setItemsInOrder(List<Item> itemsInOrder) {
-        this.itemsInOrder = itemsInOrder;
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + ", userId=" + userId + ", items=" + items + '}';
     }
 }

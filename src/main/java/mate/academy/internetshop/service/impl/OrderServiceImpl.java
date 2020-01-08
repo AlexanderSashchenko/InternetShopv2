@@ -1,5 +1,9 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
@@ -7,10 +11,6 @@ import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.OrderService;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -24,22 +24,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> get(Long id) {
-        return orderDao.get(id);
+    public Order get(Long id) throws NoSuchElementException {
+        if (orderDao.get(id).isPresent()) {
+            return orderDao.get(id).get();
+        } else {
+            throw new NoSuchElementException("Can't find order with id: " + id);
+        }
     }
 
     @Override
-    public Optional<Order> update(Order order) {
-        return orderDao.update(order);
+    public Order update(Order order) throws NoSuchElementException {
+        if (orderDao.get(order.getId()).isPresent()) {
+            orderDao.update(order);
+            return orderDao.get(order.getId()).get();
+        } else {
+            throw new NoSuchElementException("Can't find order: " + order.toString());
+        }
     }
 
     @Override
-    public boolean delete(Long id) {
-        return orderDao.delete(id);
+    public boolean deleteById(Long id) {
+        return orderDao.deleteById(id);
     }
 
     @Override
-    public boolean deleteByEntity(Order order) {
+    public boolean delete(Order order) {
         return orderDao.getAllEntities().remove(order);
     }
 
@@ -60,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
     public Order completeOrder(List<Item> items, User user) {
         Order newOrder = new Order();
         newOrder.setUserId(user.getId());
-        newOrder.setItemsInOrder(items);
+        newOrder.setItems(items);
         orderDao.create(newOrder);
         return newOrder;
     }

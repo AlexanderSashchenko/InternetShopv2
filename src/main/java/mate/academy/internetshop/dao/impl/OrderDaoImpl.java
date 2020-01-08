@@ -1,14 +1,14 @@
 package mate.academy.internetshop.dao.impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.storage.IdGenerator;
 import mate.academy.internetshop.storage.Storage;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Dao
 public class OrderDaoImpl implements OrderDao {
@@ -31,23 +31,22 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> update(Order order) {
-        return Optional.ofNullable(Storage.orders.stream()
-                .filter(o -> o.getId().equals(order.getId()))
-                .map(i -> order)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find order with id: "
-                        + order.getId())));
+    public Order update(Order order) {
+        Order updatedOrder = get(order.getId()).get();
+        updatedOrder.setId(order.getId());
+        updatedOrder.setUserId(order.getUserId());
+        updatedOrder.setItems(order.getItems());
+        return updatedOrder;
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long id) {
         Optional<Order> toDelete = get(id);
         return toDelete.map(Storage.orders::remove).orElse(false);
     }
 
     @Override
-    public boolean deleteByEntity(Order order) {
+    public boolean delete(Order order) {
         return Storage.orders.remove(order);
     }
 

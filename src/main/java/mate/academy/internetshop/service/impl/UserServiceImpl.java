@@ -1,13 +1,13 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,23 +21,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> get(Long id) {
-        return userDao.get(id);
+    public User get(Long id) throws NoSuchElementException {
+        if (userDao.get(id).isPresent()) {
+            return userDao.get(id).get();
+        } else {
+            throw new NoSuchElementException("Can't find user with id: " + id);
+        }
     }
 
     @Override
-    public Optional<User> update(User user) {
-        return userDao.update(user);
+    public User update(User user) throws NoSuchElementException {
+        if (userDao.get(user.getId()).isPresent()) {
+            userDao.update(user);
+            return userDao.get(user.getId()).get();
+        } else {
+            throw new NoSuchElementException("Can't find user: " + user.toString());
+        }
     }
 
     @Override
-    public boolean delete(Long id) {
-        return userDao.delete(id);
+    public boolean deleteById(Long id) {
+        return userDao.deleteById(id);
     }
 
     @Override
-    public boolean deleteByEntity(User user) {
-        return userDao.deleteByEntity(user);
+    public boolean delete(User user) {
+        return userDao.delete(user);
     }
 
     @Override

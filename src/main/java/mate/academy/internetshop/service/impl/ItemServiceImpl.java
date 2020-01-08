@@ -1,13 +1,13 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -21,23 +21,32 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Optional<Item> get(Long id) {
-        return itemDao.get(id);
+    public Item get(Long id) throws NoSuchElementException {
+        if (itemDao.get(id).isPresent()) {
+            return itemDao.get(id).get();
+        } else {
+            throw new NoSuchElementException("Can't find item with id: " + id);
+        }
     }
 
     @Override
-    public Optional<Item> update(Item item) {
-        return itemDao.update(item);
+    public Item update(Item item) throws NoSuchElementException {
+        if (itemDao.get(item.getId()).isPresent()) {
+            itemDao.update(item);
+            return itemDao.get(item.getId()).get();
+        } else {
+            throw new NoSuchElementException("Can't find item: " + item.toString());
+        }
     }
 
     @Override
-    public boolean delete(Long id) {
-        return itemDao.delete(id);
+    public boolean deleteById(Long id) {
+        return itemDao.deleteById(id);
     }
 
     @Override
-    public boolean deleteByEntity(Item item) {
-        return itemDao.deleteByEntity(item);
+    public boolean delete(Item item) {
+        return itemDao.delete(item);
     }
 
     @Override

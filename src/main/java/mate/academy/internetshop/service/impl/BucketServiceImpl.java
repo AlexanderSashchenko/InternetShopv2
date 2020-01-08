@@ -1,14 +1,14 @@
 package mate.academy.internetshop.service.impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.lib.Service;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.BucketService;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BucketServiceImpl implements BucketService {
@@ -22,23 +22,32 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public Optional<Bucket> get(Long id) {
-        return bucketDao.get(id);
+    public Bucket get(Long id) throws NoSuchElementException {
+        if (bucketDao.get(id).isPresent()) {
+            return bucketDao.get(id).get();
+        } else {
+            throw new NoSuchElementException("Can't find bucket with id: " + id);
+        }
     }
 
     @Override
-    public Optional<Bucket> update(Bucket bucket) {
-        return bucketDao.update(bucket);
+    public Bucket update(Bucket bucket) throws NoSuchElementException {
+        if (bucketDao.get(bucket.getId()).isPresent()) {
+            bucketDao.update(bucket);
+            return bucketDao.get(bucket.getId()).get();
+        } else {
+            throw new NoSuchElementException("Can't find bucket: " + bucket.toString());
+        }
     }
 
     @Override
-    public boolean delete(Long id) {
-        return bucketDao.delete(id);
+    public boolean deleteById(Long id) {
+        return bucketDao.deleteById(id);
     }
 
     @Override
-    public boolean deleteByEntity(Bucket bucket) {
-        return bucketDao.deleteByEntity(bucket);
+    public boolean delete(Bucket bucket) {
+        return bucketDao.delete(bucket);
     }
 
     @Override
@@ -47,31 +56,25 @@ public class BucketServiceImpl implements BucketService {
     }
 
     @Override
-    public Bucket addItem(Bucket bucket, Item item) {
-        List<Item> items = bucketDao.get(bucket.getId()).map(Bucket::getItemsInBucket).get();
-        items.add(item);
-        bucket.setItemsInBucket(items);
-        return bucket;
+    public void addItem(Bucket bucket, Item item) {
+        bucket.getItems().add(item);
+        bucketDao.update(bucket);
     }
 
     @Override
-    public Bucket deleteItem(Bucket bucket, Item item) {
-        List<Item> items = bucketDao.get(bucket.getId()).map(Bucket::getItemsInBucket).get();
-        items.remove(item);
-        bucket.setItemsInBucket(items);
-        return bucket;
+    public void deleteItem(Bucket bucket, Item item) {
+        bucket.getItems().remove(item);
+        bucketDao.update(bucket);
     }
 
     @Override
-    public Bucket clear(Bucket bucket) {
-        List<Item> items = bucketDao.get(bucket.getId()).map(Bucket::getItemsInBucket).get();
-        items.clear();
-        bucket.setItemsInBucket(items);
-        return bucket;
+    public void clear(Bucket bucket) {
+        bucket.getItems().clear();
+        bucketDao.update(bucket);
     }
 
     @Override
     public List<Item> getAllItems(Bucket bucket) {
-        return bucketDao.get(bucket.getId()).map(Bucket::getItemsInBucket).get();
+        return bucket.getItems();
     }
 }

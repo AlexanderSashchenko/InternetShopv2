@@ -6,10 +6,10 @@ import java.util.List;
 public class Bucket {
     private Long id;
     private Long userId;
-    private List<Item> itemsInBucket;
+    private List<Item> items;
 
     public Bucket() {
-        this.itemsInBucket = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     public Long getUserId() {
@@ -28,11 +28,16 @@ public class Bucket {
         this.id = id;
     }
 
-    public List<Item> getItemsInBucket() {
-        return itemsInBucket;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setItemsInBucket(List<Item> itemsInBucket) {
-        this.itemsInBucket = itemsInBucket;
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Bucket{" + "id=" + id + ", userId=" + userId + ", items=" + items + '}';
     }
 }

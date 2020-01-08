@@ -40,17 +40,20 @@ public class Controller {
 
         itemService.create(laptop);
         bucketService.addItem(newBucket, laptop);
+        System.out.println(newBucket.toString());
 
         Item smartphone = new Item("Samsung", 400D);
 
         itemService.create(smartphone);
         bucketService.addItem(newBucket, smartphone);
+        System.out.println(newBucket.toString());
 
-        orderService.completeOrder(newBucket.getItemsInBucket(), newUser);
+        orderService.completeOrder(newBucket.getItems(), newUser);
 
         bucketService.deleteItem(newBucket, smartphone);
+        System.out.println(newBucket.toString());
 
-        orderService.completeOrder(newBucket.getItemsInBucket(), newUser);
+        orderService.completeOrder(newBucket.getItems(), newUser);
 
         orderService.getUserOrders(newUser);
     }
