@@ -66,7 +66,6 @@ public class OrderServiceImpl implements OrderService {
         Order newOrder = new Order();
         newOrder.setUserId(user.getId());
         newOrder.setItems(items);
-        orderDao.create(newOrder);
-        return create(newOrder);
+        return orderDao.create(newOrder);
     }
 }
