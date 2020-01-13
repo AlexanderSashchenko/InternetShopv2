@@ -1,5 +1,6 @@
 package mate.academy.internetshop.model;
 
+
 import java.math.BigDecimal;
 
 public class Item {

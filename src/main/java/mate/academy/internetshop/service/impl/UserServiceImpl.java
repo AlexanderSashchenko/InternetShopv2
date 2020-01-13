@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new NoSuchElementException("Can't find user with id: " + user.getId());
         }
-
     }
 
     @Override

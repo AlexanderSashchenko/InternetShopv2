@@ -31,6 +31,7 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Bucket update(Bucket bucket) {
+
         Optional<Bucket> updatedBucked = get(bucket.getId());
         if (updatedBucked.isPresent()) {
             updatedBucked.get().setId(bucket.getId());
