@@ -32,17 +32,25 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order update(Order order) {
-        Order updatedOrder = get(order.getId()).get();
-        updatedOrder.setId(order.getId());
-        updatedOrder.setUserId(order.getUserId());
-        updatedOrder.setItems(order.getItems());
-        return updatedOrder;
+        Optional<Order> updatedOrder = get(order.getId());
+        if (updatedOrder.isPresent()) {
+            updatedOrder.get().setId(order.getId());
+            updatedOrder.get().setUserId(order.getUserId());
+            updatedOrder.get().setItems(order.getItems());
+            return updatedOrder.get();
+        } else {
+            throw new NoSuchElementException("Can't find bucket with id: " + order.getId());
+        }
     }
 
     @Override
     public boolean deleteById(Long id) {
         Optional<Order> toDelete = get(id);
-        return Storage.orders.remove(toDelete.get());
+        if (toDelete.isPresent()) {
+            return Storage.orders.remove(toDelete.get());
+        } else {
+            throw new NoSuchElementException("Can't find order with id: " + id);
+        }
     }
 
     @Override

@@ -32,17 +32,25 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Item update(Item item) {
-        Item updatedItem = get(item.getId()).get();
-        updatedItem.setId(item.getId());
-        updatedItem.setTitle(item.getTitle());
-        updatedItem.setPrice(item.getPrice());
-        return updatedItem;
+        Optional<Item> updatedItem = get(item.getId());
+        if (updatedItem.isPresent()) {
+            updatedItem.get().setId(item.getId());
+            updatedItem.get().setTitle(item.getTitle());
+            updatedItem.get().setPrice(item.getPrice());
+            return updatedItem.get();
+        } else {
+            throw new NoSuchElementException("Can't find bucket with id: " + item.getId());
+        }
     }
 
     @Override
     public boolean deleteById(Long id) {
         Optional<Item> toDelete = get(id);
-        return Storage.items.remove(toDelete.get());
+        if (toDelete.isPresent()) {
+            return Storage.items.remove(toDelete.get());
+        } else {
+            throw new NoSuchElementException("Can't find item with id: " + id);
+        }
     }
 
     @Override

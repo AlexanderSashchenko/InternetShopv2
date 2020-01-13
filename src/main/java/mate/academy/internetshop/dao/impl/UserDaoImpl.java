@@ -32,20 +32,28 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User update(User user) {
-        User updatedUser = get(user.getId()).get();
-        updatedUser.setId(user.getId());
-        updatedUser.setLogin(user.getLogin());
-        updatedUser.setPassword(user.getPassword());
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setFirstName(user.getFirstName());
-        updatedUser.setLastName(user.getLastName());
-        return updatedUser;
+        Optional<User> updatedUser = get(user.getId());
+        if (updatedUser.isPresent()) {
+            updatedUser.get().setId(user.getId());
+            updatedUser.get().setLogin(user.getLogin());
+            updatedUser.get().setPassword(user.getPassword());
+            updatedUser.get().setEmail(user.getEmail());
+            updatedUser.get().setFirstName(user.getFirstName());
+            updatedUser.get().setLastName(user.getLastName());
+            return updatedUser.get();
+        } else {
+            throw new NoSuchElementException("Can't find bucket with id: " + user.getId());
+        }
     }
 
     @Override
     public boolean deleteById(Long id) {
         Optional<User> toDelete = get(id);
-        return Storage.users.remove(toDelete.get());
+        if (toDelete.isPresent()) {
+            return Storage.users.remove(toDelete.get());
+        } else {
+            throw new NoSuchElementException("Can't find user with id: " + id);
+        }
     }
 
     @Override
