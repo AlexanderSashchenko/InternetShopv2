@@ -41,7 +41,7 @@
 
     <servlet>
         <servlet-name>addItem</servlet-name>
-        <servlet-class>mate.academy.internetshop.controller.NewItemController</servlet-class>
+        <servlet-class>mate.academy.internetshop.controller.AddNewItemController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addItem</servlet-name>
@@ -64,6 +64,51 @@
     <servlet-mapping>
         <servlet-name>viewBucket</servlet-name>
         <url-pattern>/viewBucket</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteUser</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.DeleteUserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteUser</servlet-name>
+        <url-pattern>/deleteUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteItemFromBucket</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.DeleteItemFromBucketController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteItemFromBucket</servlet-name>
+        <url-pattern>/deleteItemFromBucket</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>completeOrder</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.CompleteOrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>completeOrder</servlet-name>
+        <url-pattern>/completeOrder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getAllUserOrders</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.GetAllUserOrdersController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getAllUserOrders</servlet-name>
+        <url-pattern>/getAllUserOrders</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteOrder</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.DeleteOrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteOrder</servlet-name>
+        <url-pattern>/deleteOrder</url-pattern>
     </servlet-mapping>
     
     <listener>

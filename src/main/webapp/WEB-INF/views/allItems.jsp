@@ -14,6 +14,7 @@
             <th>ID</th>
             <th>Title</th>
             <th>Price</th>
+            <th>Add To Bucket</th>
         </tr>
         <c:forEach var="item" items="${items}">
             <tr>
@@ -27,7 +28,7 @@
                     <c:out value="${item.price}" />
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/addItemToBucket?item_id=${item.id}">Add To Bucket</a>
+                    <a href="${pageContext.request.contextPath}/addItemToBucket?item_id=${item.id}">Add</a>
                 </td>
             </tr>
         </c:forEach>

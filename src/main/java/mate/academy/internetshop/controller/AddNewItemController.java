@@ -10,7 +10,7 @@ import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
 
-public class NewItemController extends HttpServlet {
+public class AddNewItemController extends HttpServlet {
 
     @Inject
     private static ItemService itemService;

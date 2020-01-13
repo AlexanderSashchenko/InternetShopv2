@@ -1,14 +1,16 @@
 package mate.academy.internetshop.model;
 
+import java.math.BigDecimal;
+
 public class Item {
 
     private Long id;
     private String title;
-    private String price;
+    private BigDecimal price;
 
     public Item(String title, String price) {
         this.title = title;
-        this.price = price;
+        this.price = new BigDecimal(price);
     }
 
     public Long getId() {
@@ -28,11 +30,11 @@ public class Item {
     }
 
     public String getPrice() {
-        return price;
+        return String.valueOf(price);
     }
 
     public void setPrice(String price) {
-        this.price = price;
+        this.price = new BigDecimal(price);
     }
 
     @Override

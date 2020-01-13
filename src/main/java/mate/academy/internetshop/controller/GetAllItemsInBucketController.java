@@ -14,8 +14,7 @@ import mate.academy.internetshop.service.BucketService;
 
 public class GetAllItemsInBucketController extends HttpServlet {
 
-    private static final Long USER_ID = 100L;
-
+    private static final Long USER_ID = 0L;
     @Inject
     private static BucketService bucketService;
 

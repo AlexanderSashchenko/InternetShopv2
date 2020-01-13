@@ -36,6 +36,9 @@ public class UserDaoImpl implements UserDao {
         updatedUser.setId(user.getId());
         updatedUser.setLogin(user.getLogin());
         updatedUser.setPassword(user.getPassword());
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setFirstName(user.getFirstName());
+        updatedUser.setLastName(user.getLastName());
         return updatedUser;
     }
 

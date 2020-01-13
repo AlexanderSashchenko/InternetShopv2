@@ -13,6 +13,10 @@
         <tr>
             <th>ID</th>
             <th>Login</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Delete User</th>
         </tr>
         <c:forEach var="user" items="${users}">
             <tr>
@@ -22,9 +26,22 @@
                 <td>
                     <c:out value="${user.login}" />
                 </td>
+                <td>
+                    <c:out value="${user.email}" />
+                </td>
+                <td>
+                    <c:out value="${user.firstName}" />
+                </td>
+                <td>
+                    <c:out value="${user.lastName}" />
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/deleteUser?user_id=${user.id}">Delete</a>
+                </td>
             </tr>
         </c:forEach>
     </table><br />
-<a href="${pageContext.request.contextPath}/index">Back to the index page</a>
+    <a href="${pageContext.request.contextPath}/registration">Register another user</a><br>
+    <a href="${pageContext.request.contextPath}/index">Back to the index page</a><br>
 </body>
 </html>
