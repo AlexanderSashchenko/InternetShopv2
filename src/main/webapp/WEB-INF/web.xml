@@ -3,6 +3,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
     <servlet>
         <servlet-name>index</servlet-name>
         <servlet-class>mate.academy.internetshop.controller.IndexController</servlet-class>
@@ -114,4 +115,5 @@
     <listener>
         <listener-class>mate.academy.internetshop.controller.InjectInitializer</listener-class>
     </listener>
+
 </web-app>

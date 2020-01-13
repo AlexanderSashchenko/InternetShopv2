@@ -1,6 +1,7 @@
 package mate.academy.internetshop.storage;
 
 public class IdGenerator {
+
     private static long itemId = 0L;
     private static long userId = 0L;
     private static long bucketId = 0L;

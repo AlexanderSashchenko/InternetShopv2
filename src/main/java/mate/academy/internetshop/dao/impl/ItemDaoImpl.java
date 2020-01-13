@@ -22,22 +22,21 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Optional<Item> get(Long id) {
-        return Optional.of(Storage.items
+        return Storage.items
                 .stream()
                 .filter(item -> item.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find item with id: "
-                        + id)));
+                .findFirst();
     }
 
     @Override
     public Item update(Item item) {
-        Optional<Item> updatedItem = get(item.getId());
-        if (updatedItem.isPresent()) {
-            updatedItem.get().setId(item.getId());
-            updatedItem.get().setTitle(item.getTitle());
-            updatedItem.get().setPrice(item.getPrice());
-            return updatedItem.get();
+        Optional<Item> updatedOptionalItem = get(item.getId());
+        if (updatedOptionalItem.isPresent()) {
+            Item updatedItem = updatedOptionalItem.get();
+            updatedItem.setId(item.getId());
+            updatedItem.setTitle(item.getTitle());
+            updatedItem.setPrice(item.getPrice());
+            return updatedItem;
         } else {
             throw new NoSuchElementException("Can't find bucket with id: " + item.getId());
         }
@@ -46,11 +45,7 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public boolean deleteById(Long id) {
         Optional<Item> toDelete = get(id);
-        if (toDelete.isPresent()) {
-            return Storage.items.remove(toDelete.get());
-        } else {
-            throw new NoSuchElementException("Can't find item with id: " + id);
-        }
+        return toDelete.map(Storage.items::remove).orElse(false);
     }
 
     @Override

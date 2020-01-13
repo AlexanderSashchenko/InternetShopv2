@@ -31,12 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) throws NoSuchElementException {
-        userDao.update(user);
-        if (userDao.get(user.getId()).isPresent()) {
-            return userDao.get(user.getId()).get();
-        } else {
-            throw new NoSuchElementException("Can't find user with id: " + user.getId());
-        }
+        return userDao.update(user);
     }
 
     @Override

@@ -22,22 +22,21 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> get(Long id) {
-        return Optional.of(Storage.orders
+        return Storage.orders
                 .stream()
                 .filter(order -> order.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find order with id: "
-                        + id)));
+                .findFirst();
     }
 
     @Override
     public Order update(Order order) {
-        Optional<Order> updatedOrder = get(order.getId());
-        if (updatedOrder.isPresent()) {
-            updatedOrder.get().setId(order.getId());
-            updatedOrder.get().setUserId(order.getUserId());
-            updatedOrder.get().setItems(order.getItems());
-            return updatedOrder.get();
+        Optional<Order> updatedOptionalOrder = get(order.getId());
+        if (updatedOptionalOrder.isPresent()) {
+            Order updatedOrder = updatedOptionalOrder.get();
+            updatedOrder.setId(order.getId());
+            updatedOrder.setUserId(order.getUserId());
+            updatedOrder.setItems(order.getItems());
+            return updatedOrder;
         } else {
             throw new NoSuchElementException("Can't find bucket with id: " + order.getId());
         }
@@ -46,11 +45,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean deleteById(Long id) {
         Optional<Order> toDelete = get(id);
-        if (toDelete.isPresent()) {
-            return Storage.orders.remove(toDelete.get());
-        } else {
-            throw new NoSuchElementException("Can't find order with id: " + id);
-        }
+        return toDelete.map(Storage.orders::remove).orElse(false);
     }
 
     @Override
