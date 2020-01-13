@@ -35,7 +35,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order update(Order order) throws NoSuchElementException {
         orderDao.update(order);
-        return orderDao.get(order.getId()).get();
+        if (orderDao.get(order.getId()).isPresent()) {
+            return orderDao.get(order.getId()).get();
+        } else {
+            throw new NoSuchElementException("Can't find order with id: " + order.getId());
+        }
     }
 
     @Override
