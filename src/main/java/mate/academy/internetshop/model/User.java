@@ -3,10 +3,12 @@ package mate.academy.internetshop.model;
 public class User {
 
     private Long id;
-    private String name;
+    private String login;
+    private String password;
 
-    public User(String name) {
-        this.name = name;
+    public User(String login) {
+        this.login = login;
+        this.password = password;
     }
 
     public Long getId() {
@@ -17,16 +19,24 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLogin() {
+        return login;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name='" + name + '\'' + '}';
+        return "User{" + "id=" + id + ", name='" + login + '\'' + '}';
     }
 }

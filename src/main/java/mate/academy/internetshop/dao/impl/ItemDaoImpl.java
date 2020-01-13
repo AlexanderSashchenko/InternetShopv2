@@ -34,7 +34,7 @@ public class ItemDaoImpl implements ItemDao {
     public Item update(Item item) {
         Item updatedItem = get(item.getId()).get();
         updatedItem.setId(item.getId());
-        updatedItem.setName(item.getName());
+        updatedItem.setTitle(item.getTitle());
         updatedItem.setPrice(item.getPrice());
         return updatedItem;
     }

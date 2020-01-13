@@ -3,11 +3,11 @@ package mate.academy.internetshop.model;
 public class Item {
 
     private Long id;
-    private String name;
-    private Double price;
+    private String title;
+    private String price;
 
-    public Item(String name, Double price) {
-        this.name = name;
+    public Item(String title, String price) {
+        this.title = title;
         this.price = price;
     }
 
@@ -19,24 +19,24 @@ public class Item {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + '}';
+        return "Item{" + "id=" + id + ", name='" + title + '\'' + ", price=" + price + '}';
     }
 }

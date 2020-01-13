@@ -73,4 +73,12 @@ public class BucketServiceImpl implements BucketService {
     public List<Item> getAllItems(Bucket bucket) {
         return bucket.getItems();
     }
+
+    @Override
+    public Bucket getByUserId(Long userId) {
+        return bucketDao.getAllEntities().stream()
+                .filter(b -> b.getUserId().equals(userId))
+                .findFirst()
+                .orElse(create(new Bucket(userId)));
+    }
 }
