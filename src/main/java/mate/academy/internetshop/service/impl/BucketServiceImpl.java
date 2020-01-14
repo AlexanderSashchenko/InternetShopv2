@@ -32,8 +32,7 @@ public class BucketServiceImpl implements BucketService {
 
     @Override
     public Bucket update(Bucket bucket) throws NoSuchElementException {
-        bucketDao.update(bucket);
-        return bucketDao.get(bucket.getId()).get();
+        return bucketDao.update(bucket);
     }
 
     @Override
@@ -72,5 +71,13 @@ public class BucketServiceImpl implements BucketService {
     @Override
     public List<Item> getAllItems(Bucket bucket) {
         return bucket.getItems();
+    }
+
+    @Override
+    public Bucket getByUserId(Long userId) {
+        return bucketDao.getAllEntities().stream()
+                .filter(b -> b.getUserId().equals(userId))
+                .findFirst()
+                .orElse(create(new Bucket(userId)));
     }
 }

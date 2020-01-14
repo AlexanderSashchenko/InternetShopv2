@@ -22,27 +22,30 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Optional<Item> get(Long id) {
-        return Optional.of(Storage.items
+        return Storage.items
                 .stream()
                 .filter(item -> item.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find item with id: "
-                        + id)));
+                .findFirst();
     }
 
     @Override
     public Item update(Item item) {
-        Item updatedItem = get(item.getId()).get();
-        updatedItem.setId(item.getId());
-        updatedItem.setName(item.getName());
-        updatedItem.setPrice(item.getPrice());
-        return updatedItem;
+        Optional<Item> updatedOptionalItem = get(item.getId());
+        if (updatedOptionalItem.isPresent()) {
+            Item updatedItem = updatedOptionalItem.get();
+            updatedItem.setId(item.getId());
+            updatedItem.setTitle(item.getTitle());
+            updatedItem.setPrice(item.getPrice());
+            return updatedItem;
+        } else {
+            throw new NoSuchElementException("Can't find bucket with id: " + item.getId());
+        }
     }
 
     @Override
     public boolean deleteById(Long id) {
         Optional<Item> toDelete = get(id);
-        return Storage.items.remove(toDelete.get());
+        return toDelete.map(Storage.items::remove).orElse(false);
     }
 
     @Override

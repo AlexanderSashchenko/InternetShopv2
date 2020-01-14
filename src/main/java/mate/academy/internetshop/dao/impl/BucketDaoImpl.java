@@ -22,26 +22,29 @@ public class BucketDaoImpl implements BucketDao {
 
     @Override
     public Optional<Bucket> get(Long id) {
-        return Optional.of(Storage.buckets.stream()
+        return Storage.buckets.stream()
                 .filter(b -> b.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find bucket with id: "
-                        + id)));
+                .findFirst();
     }
 
     @Override
     public Bucket update(Bucket bucket) {
-        Bucket updatedBucked = get(bucket.getId()).get();
-        updatedBucked.setId(bucket.getId());
-        updatedBucked.setUserId(bucket.getUserId());
-        updatedBucked.setItems(bucket.getItems());
-        return updatedBucked;
+        Optional<Bucket> updatedOptionalBucked = get(bucket.getId());
+        if (updatedOptionalBucked.isPresent()) {
+            Bucket updatedBucket = updatedOptionalBucked.get();
+            updatedBucket.setId(bucket.getId());
+            updatedBucket.setUserId(bucket.getUserId());
+            updatedBucket.setItems(bucket.getItems());
+            return updatedBucket;
+        } else {
+            throw new NoSuchElementException("Can't find bucket with id: " + bucket.getId());
+        }
     }
 
     @Override
     public boolean deleteById(Long id) {
         Optional<Bucket> toDelete = get(id);
-        return Storage.buckets.remove(toDelete.get());
+        return toDelete.map(Storage.buckets::remove).orElse(false);
     }
 
     @Override

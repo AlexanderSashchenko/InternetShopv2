@@ -22,27 +22,30 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> get(Long id) {
-        return Optional.of(Storage.orders
+        return Storage.orders
                 .stream()
                 .filter(order -> order.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Can't find order with id: "
-                        + id)));
+                .findFirst();
     }
 
     @Override
     public Order update(Order order) {
-        Order updatedOrder = get(order.getId()).get();
-        updatedOrder.setId(order.getId());
-        updatedOrder.setUserId(order.getUserId());
-        updatedOrder.setItems(order.getItems());
-        return updatedOrder;
+        Optional<Order> updatedOptionalOrder = get(order.getId());
+        if (updatedOptionalOrder.isPresent()) {
+            Order updatedOrder = updatedOptionalOrder.get();
+            updatedOrder.setId(order.getId());
+            updatedOrder.setUserId(order.getUserId());
+            updatedOrder.setItems(order.getItems());
+            return updatedOrder;
+        } else {
+            throw new NoSuchElementException("Can't find bucket with id: " + order.getId());
+        }
     }
 
     @Override
     public boolean deleteById(Long id) {
         Optional<Order> toDelete = get(id);
-        return Storage.orders.remove(toDelete.get());
+        return toDelete.map(Storage.orders::remove).orElse(false);
     }
 
     @Override

@@ -31,8 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) throws NoSuchElementException {
-        userDao.update(user);
-        return userDao.get(user.getId()).get();
+        return userDao.update(user);
     }
 
     @Override
