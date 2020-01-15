@@ -37,9 +37,8 @@ public class ItemDaoImpl implements ItemDao {
             updatedItem.setTitle(item.getTitle());
             updatedItem.setPrice(item.getPrice());
             return updatedItem;
-        } else {
-            throw new NoSuchElementException("Can't find bucket with id: " + item.getId());
         }
+        throw new NoSuchElementException("Can't find bucket with id: " + item.getId());
     }
 
     @Override

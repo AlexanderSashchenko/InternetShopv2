@@ -37,9 +37,8 @@ public class OrderDaoImpl implements OrderDao {
             updatedOrder.setUserId(order.getUserId());
             updatedOrder.setItems(order.getItems());
             return updatedOrder;
-        } else {
-            throw new NoSuchElementException("Can't find bucket with id: " + order.getId());
         }
+        throw new NoSuchElementException("Can't find bucket with id: " + order.getId());
     }
 
     @Override

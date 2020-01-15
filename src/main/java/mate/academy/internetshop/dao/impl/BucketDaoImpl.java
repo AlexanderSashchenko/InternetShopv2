@@ -36,9 +36,8 @@ public class BucketDaoImpl implements BucketDao {
             updatedBucket.setUserId(bucket.getUserId());
             updatedBucket.setItems(bucket.getItems());
             return updatedBucket;
-        } else {
-            throw new NoSuchElementException("Can't find bucket with id: " + bucket.getId());
         }
+        throw new NoSuchElementException("Can't find bucket with id: " + bucket.getId());
     }
 
     @Override

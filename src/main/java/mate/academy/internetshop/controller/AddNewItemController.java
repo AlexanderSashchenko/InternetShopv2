@@ -28,6 +28,6 @@ public class AddNewItemController extends HttpServlet {
         String itemPrice = req.getParameter("price");
         Item item = new Item(itemName, itemPrice);
         itemService.create(item);
-        resp.sendRedirect(req.getContextPath() + "/addItem");
+        resp.sendRedirect(req.getContextPath() + "/servlet/addItem");
     }
 }
