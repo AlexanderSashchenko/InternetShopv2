@@ -26,12 +26,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User get(Long id) throws NoSuchElementException {
-        Optional<User> user = userDao.get(id);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new NoSuchElementException("Can't find user with id: " + id);
-        }
+        return userDao.get(id).orElseThrow(() ->
+                new NoSuchElementException("Can't find user with id: " + id));
     }
 
     @Override
