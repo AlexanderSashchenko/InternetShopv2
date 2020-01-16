@@ -19,7 +19,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>allUsers</servlet-name>
-        <url-pattern>/allUsers</url-pattern>
+        <url-pattern>/servlet/allUsers</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -37,7 +37,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>allItems</servlet-name>
-        <url-pattern>/allItems</url-pattern>
+        <url-pattern>/servlet/allItems</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -46,7 +46,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>addItem</servlet-name>
-        <url-pattern>/addItem</url-pattern>
+        <url-pattern>/servlet/addItem</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -55,7 +55,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>addItemToBucket</servlet-name>
-        <url-pattern>/addItemToBucket</url-pattern>
+        <url-pattern>/servlet/addItemToBucket</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -64,7 +64,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>viewBucket</servlet-name>
-        <url-pattern>/viewBucket</url-pattern>
+        <url-pattern>/servlet/viewBucket</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -73,7 +73,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteUser</servlet-name>
-        <url-pattern>/deleteUser</url-pattern>
+        <url-pattern>/servlet/deleteUser</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -82,7 +82,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteItemFromBucket</servlet-name>
-        <url-pattern>/deleteItemFromBucket</url-pattern>
+        <url-pattern>/servlet/deleteItemFromBucket</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -91,7 +91,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>completeOrder</servlet-name>
-        <url-pattern>/completeOrder</url-pattern>
+        <url-pattern>/servlet/completeOrder</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -100,7 +100,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>getAllUserOrders</servlet-name>
-        <url-pattern>/getAllUserOrders</url-pattern>
+        <url-pattern>/servlet/getAllUserOrders</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -109,8 +109,26 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteOrder</servlet-name>
-        <url-pattern>/deleteOrder</url-pattern>
+        <url-pattern>/servlet/deleteOrder</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>loginController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>loginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    
+    <filter>
+        <filter-name>authFilter</filter-name>
+        <filter-class>mate.academy.internetshop.web.filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+        <url-pattern>/servlet/*</url-pattern>
+    </filter-mapping>
     
     <listener>
         <listener-class>mate.academy.internetshop.controller.InjectInitializer</listener-class>

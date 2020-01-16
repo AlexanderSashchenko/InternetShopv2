@@ -2,6 +2,7 @@ package mate.academy.internetshop.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import mate.academy.internetshop.dao.OrderDao;
@@ -25,8 +26,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order get(Long id) throws NoSuchElementException {
-        if (orderDao.get(id).isPresent()) {
-            return orderDao.get(id).get();
+        Optional<Order> order = orderDao.get(id);
+        if (order.isPresent()) {
+            return order.get();
         } else {
             throw new NoSuchElementException("Can't find order with id: " + id);
         }

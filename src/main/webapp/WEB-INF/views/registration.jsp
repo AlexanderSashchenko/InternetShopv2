@@ -31,6 +31,9 @@
             <hr>
             <button type="submit">Register</button>
         </div>
+        <div class="container">
+            <p>Already have an account? Sing in <a href="${pageContext.request.contextPath}/login">here</a></p>
+        </div>
     </form>
 </body>
 </html>

@@ -40,9 +40,8 @@ public class UserDaoImpl implements UserDao {
             updatedUser.setFirstName(user.getFirstName());
             updatedUser.setLastName(user.getLastName());
             return updatedUser;
-        } else {
-            throw new NoSuchElementException("Can't find bucket with id: " + user.getId());
         }
+        throw new NoSuchElementException("Can't find bucket with id: " + user.getId());
     }
 
     @Override
@@ -59,5 +58,21 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllEntities() {
         return Storage.users;
+    }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+        return Storage.users
+                .stream()
+                .filter(u -> u.getLogin().equalsIgnoreCase(login))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<User> findByToken(String token) {
+        return Storage.users
+                .stream()
+                .filter(u -> u.getToken().equals(token))
+                .findFirst();
     }
 }
