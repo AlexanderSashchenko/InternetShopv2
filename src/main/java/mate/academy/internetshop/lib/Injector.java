@@ -8,7 +8,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import mate.academy.internetshop.controller.InjectInitializer;
+
+import org.apache.log4j.Logger;
+
 public class Injector {
+
+    private static final Logger LOGGER = Logger.getLogger(InjectInitializer.class);
     private static final String PROJECT_MAIN_PACKAGE = "mate.academy.internetshop";
     private static List<Class> classes = new ArrayList<>();
 
@@ -16,7 +22,8 @@ public class Injector {
         try {
             classes.addAll(getClasses(PROJECT_MAIN_PACKAGE));
         } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Injector wasn't able to find any class", e);
+            throw new RuntimeException("Injector wasn't able to find any class", e);
         }
     }
 
