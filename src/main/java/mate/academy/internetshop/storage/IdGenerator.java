@@ -6,6 +6,7 @@ public class IdGenerator {
     private static long userId = 0L;
     private static long bucketId = 0L;
     private static long orderId = 0L;
+    private static long roleId = 0L;
 
     public static Long getItemId() {
         return itemId++;
@@ -21,5 +22,9 @@ public class IdGenerator {
 
     public static Long getOrderId() {
         return orderId++;
+    }
+
+    public static Long getRoleId() {
+        return roleId++;
     }
 }

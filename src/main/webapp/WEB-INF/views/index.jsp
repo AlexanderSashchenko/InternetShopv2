@@ -12,6 +12,8 @@
 <a href="${pageContext.request.contextPath}/servlet/allItems">View All Items</a><br />
 <a href="${pageContext.request.contextPath}/servlet/viewBucket">View All Items In Bucket</a><br />
 <a href="${pageContext.request.contextPath}/servlet/getAllUserOrders">View All Orders By User</a><br />
+<br>
+<a href="${pageContext.request.contextPath}/logout">Logout</a><br />
 
 </body>
 </html>
