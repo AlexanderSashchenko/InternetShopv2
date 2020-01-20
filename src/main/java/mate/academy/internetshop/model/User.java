@@ -8,7 +8,6 @@ public class User {
     private Long id;
     private String login;
     private String password;
-    private String token;
     private String email;
     private String firstName;
     private String lastName;
@@ -40,14 +39,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public Long getId() {

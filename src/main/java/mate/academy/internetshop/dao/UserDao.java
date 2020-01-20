@@ -7,6 +7,4 @@ import mate.academy.internetshop.model.User;
 public interface UserDao extends DaoGeneric<User, Long> {
 
     Optional<User> findByLogin(String login);
-
-    Optional<User> findByToken(String token);
 }

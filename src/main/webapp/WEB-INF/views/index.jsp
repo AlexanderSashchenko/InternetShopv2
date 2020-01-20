@@ -7,6 +7,7 @@
 <h1>Hello mates! Make your choice!</h1>
 <a href="${pageContext.request.contextPath}/login">Sign in</a><br />
 <a href="${pageContext.request.contextPath}/registration">Sign up</a><br />
+<br>
 <a href="${pageContext.request.contextPath}/servlet/allUsers">View All Users</a><br />
 <a href="${pageContext.request.contextPath}/servlet/addItem">Add New Items</a><br />
 <a href="${pageContext.request.contextPath}/servlet/allItems">View All Items</a><br />
