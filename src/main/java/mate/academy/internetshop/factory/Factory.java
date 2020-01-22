@@ -1,13 +1,17 @@
 package mate.academy.internetshop.factory;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import mate.academy.internetshop.dao.BucketDao;
 import mate.academy.internetshop.dao.ItemDao;
 import mate.academy.internetshop.dao.OrderDao;
 import mate.academy.internetshop.dao.UserDao;
 import mate.academy.internetshop.dao.impl.BucketDaoImpl;
-import mate.academy.internetshop.dao.impl.ItemDaoImpl;
 import mate.academy.internetshop.dao.impl.OrderDaoImpl;
 import mate.academy.internetshop.dao.impl.UserDaoImpl;
+import mate.academy.internetshop.dao.jdbc.ItemDaoJdbcImpl;
 import mate.academy.internetshop.service.BucketService;
 import mate.academy.internetshop.service.ItemService;
 import mate.academy.internetshop.service.OrderService;
@@ -17,8 +21,11 @@ import mate.academy.internetshop.service.impl.ItemServiceImpl;
 import mate.academy.internetshop.service.impl.OrderServiceImpl;
 import mate.academy.internetshop.service.impl.UserServiceImpl;
 
-public class Factory {
+import org.apache.log4j.Logger;
 
+public class Factory {
+    private static Connection connection;
+    private static final Logger LOGGER = Logger.getLogger(Factory.class);
     private static BucketDao bucketDaoInstance;
     private static ItemDao itemDaoInstance;
     private static OrderDao orderDaoInstance;
@@ -27,6 +34,18 @@ public class Factory {
     private static BucketService bucketServiceInstance;
     private static OrderService orderServiceInstance;
     private static ItemService itemServiceInstance;
+
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/internetshop?serverTimezone=EET",
+                    "User",
+                    "Kfgecz05!");
+        } catch (SQLException | ClassNotFoundException e) {
+            LOGGER.error("Can't establish connection to database", e);
+        }
+    }
 
     public static BucketDao getBucketDao() {
         if (bucketDaoInstance == null) {
@@ -37,7 +56,7 @@ public class Factory {
 
     public static ItemDao getItemDao() {
         if (itemDaoInstance == null) {
-            itemDaoInstance = new ItemDaoImpl();
+            itemDaoInstance = new ItemDaoJdbcImpl(connection);
         }
         return itemDaoInstance;
     }
