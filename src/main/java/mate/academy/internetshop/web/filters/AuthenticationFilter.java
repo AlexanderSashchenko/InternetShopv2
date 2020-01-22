@@ -8,9 +8,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
@@ -31,22 +31,19 @@ public class AuthenticationFilter implements Filter {
                          FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
-        if (req.getCookies() == null) {
+        HttpSession session = req.getSession();
+        if (session == null || session.getAttribute("userId") == null) {
             processUnauthenticated(req, resp);
             return;
         }
-        for (Cookie cookie : req.getCookies()) {
-            if (cookie.getName().equals("MATE")) {
-                Optional<User> user = userService.findByToken(cookie.getValue());
-                if (user.isPresent()) {
-                    filterChain.doFilter(req, resp);
-                    return;
-                } else {
-                    processUnauthenticated(req, resp);
-                }
-            }
+
+        Long userId = (Long) session.getAttribute("userId");
+        Optional<User> user = Optional.ofNullable(userService.get(userId));
+        if (user.isPresent()) {
+            filterChain.doFilter(req, resp);
+        } else {
+            processUnauthenticated(req, resp);
         }
-        processUnauthenticated(req, resp);
     }
 
     private void processUnauthenticated(HttpServletRequest req, HttpServletResponse resp)
