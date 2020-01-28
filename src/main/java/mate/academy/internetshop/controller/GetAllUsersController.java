@@ -25,7 +25,7 @@ public class GetAllUsersController extends HttpServlet {
             throws ServletException, IOException {
         List<User> users;
         try {
-            users = userService.getAllEntities();
+            List<User> users = userService.getAllEntities();
             req.setAttribute("users", users);
             req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
