@@ -69,8 +69,6 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     public boolean deleteById(Long id) throws DataProcessingException {
         if (get(id).isPresent()) {
             deleteOrderItems(get(id).get());
-        } else {
-            throw new DataProcessingException("Failed to delete order items with id: " + id);
         }
         String query = "DELETE FROM orders WHERE order_id=?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -134,7 +132,7 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     private List<Item> getAllItems(Long id) throws DataProcessingException {
         List<Item> items = new ArrayList<>();
         String query = "SELECT * FROM order_items INNER JOIN items ON order_items.item_id "
-                + "= items.item_id WHERE order_id = ?";
+                + "= items.item_id WHERE order_items.order_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
@@ -150,9 +148,10 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
     }
 
     public List<Order> getAllUserOrders(Long id) throws DataProcessingException {
-        String query = "SELECT * FROM user_orders WHERE user_id = ?";
+        String query = "SELECT * FROM orders WHERE user_id = ?";
         List<Order> orders = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Order order = new Order();

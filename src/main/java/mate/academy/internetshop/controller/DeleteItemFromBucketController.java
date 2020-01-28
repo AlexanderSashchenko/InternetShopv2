@@ -27,10 +27,10 @@ public class DeleteItemFromBucketController extends HttpServlet {
         Long itemId = Long.valueOf(req.getParameter("item_id"));
         try {
             bucketService.deleteItem(bucketService.getByUserId(userId), itemService.get(itemId));
-            resp.sendRedirect(req.getContextPath() + "/servlet/viewBucket");
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to delete item from bucket");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/servlet/viewBucket");
     }
 }

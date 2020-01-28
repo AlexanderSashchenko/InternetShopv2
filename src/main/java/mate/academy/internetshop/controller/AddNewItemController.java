@@ -33,10 +33,10 @@ public class AddNewItemController extends HttpServlet {
         Item item = new Item(itemName, itemPrice);
         try {
             itemService.create(item);
-            resp.sendRedirect(req.getContextPath() + "/servlet/addItem");
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to add new item");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/servlet/addItem");
     }
 }

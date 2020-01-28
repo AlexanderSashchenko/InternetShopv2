@@ -1,6 +1,7 @@
 package mate.academy.internetshop.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,14 +28,14 @@ public class GetAllUserOrdersController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long userId = (Long) req.getSession().getAttribute("userId");
-        List<Order> orders;
+        List<Order> orders = new ArrayList<>();
         try {
             orders = orderService.getUserOrders(userService.get(userId));
-            req.setAttribute("orders", orders);
-            req.getRequestDispatcher("/WEB-INF/views/allUserOrders.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to get user orders list");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        req.setAttribute("orders", orders);
+        req.getRequestDispatcher("/WEB-INF/views/allUserOrders.jsp").forward(req, resp);
     }
 }

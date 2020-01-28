@@ -26,22 +26,16 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> findByLogin(String login) throws DataProcessingException {
-        Set<Role> roles = new LinkedHashSet<>();
-        String query = "SELECT * FROM users INNER JOIN user_roles USING (user_id) "
-                + "INNER JOIN roles USING (role_id) WHERE login=?";
+        String query = "SELECT * FROM users WHERE login = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, login);
             ResultSet rs = statement.executeQuery();
-            User user = null;
+            User user = new User();
             while (rs.next()) {
                 user = extractUser(rs);
-                Role role = Role.of(rs.getString("role_name"));
-                roles.add(role);
+                user.setRoles(getAllRoles(rs.getLong("user_id")));
             }
-            if (user != null) {
-                user.setRoles(roles);
-            }
-            return Optional.ofNullable(user);
+            return Optional.of(user);
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to find user by login" + e);
         }
@@ -72,24 +66,18 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> get(Long id) throws DataProcessingException {
-        Set<Role> roles = new LinkedHashSet<>();
-        String query = "SELECT * FROM users INNER JOIN user_roles USING (user_id) "
-                + "INNER JOIN roles USING (role_id) WHERE user_id=?";
+        String query = "SELECT * FROM users WHERE user_id=?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            User user = null;
+            User user = new User();
             while (rs.next()) {
                 user = extractUser(rs);
-                Role role = Role.of(rs.getString("role_name"));
-                roles.add(role);
+                user.setRoles(getAllRoles(id));
             }
-            if (user != null) {
-                user.setRoles(roles);
-            }
-            return Optional.ofNullable(user);
+            return Optional.of(user);
         } catch (SQLException e) {
-            throw new DataProcessingException("Failed to get user" + e);
+            throw new DataProcessingException("Failed to get user by id" + e);
         }
     }
 
@@ -180,5 +168,22 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));
         return user;
+    }
+
+    private Set<Role> getAllRoles(Long id) throws DataProcessingException {
+        String query = "SELECT * FROM user_roles INNER JOIN roles "
+                + "ON user_roles.role_id = roles.role_id WHERE user_roles.user_id = ?";
+        Set<Role> roles = new LinkedHashSet<>();
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Role role = Role.of(rs.getString("role_name"));
+                roles.add(role);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Failed to set user roles" + e);
+        }
+        return roles;
     }
 }

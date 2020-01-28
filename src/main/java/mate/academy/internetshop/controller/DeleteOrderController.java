@@ -23,10 +23,10 @@ public class DeleteOrderController extends HttpServlet {
         Long orderId = Long.valueOf(req.getParameter("order_id"));
         try {
             orderService.deleteById(orderId);
-            resp.sendRedirect(req.getContextPath() + "/servlet/getAllUserOrders");
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to delete order");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/servlet/getAllUserOrders");
     }
 }

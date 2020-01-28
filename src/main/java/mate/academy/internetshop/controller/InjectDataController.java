@@ -37,10 +37,10 @@ public class InjectDataController extends HttpServlet {
         userAdmin.addRole(Role.of("ADMIN"));
         try {
             userService.create(userAdmin);
-            resp.sendRedirect(req.getContextPath() + "/login");
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to inject user(admin)");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/login");
     }
 }

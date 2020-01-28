@@ -32,12 +32,12 @@ public class LoginController extends HttpServlet {
             User user = userService.login(login, password);
             HttpSession session = req.getSession(true);
             session.setAttribute("userId", user.getId());
-            resp.sendRedirect(req.getContextPath() + "/index");
         } catch (AuthenticationException e) {
             req.setAttribute("authFailMessage", "Incorrect login or password!");
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/index");
     }
 }

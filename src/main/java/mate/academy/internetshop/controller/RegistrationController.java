@@ -45,10 +45,10 @@ public class RegistrationController extends HttpServlet {
             User newUser = userService.create(user);
             HttpSession session = req.getSession(true);
             session.setAttribute("userId", newUser.getId());
-            resp.sendRedirect(req.getContextPath() + "/index");
         } catch (DataProcessingException e) {
             LOGGER.error("Registration failed");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/index");
     }
 }

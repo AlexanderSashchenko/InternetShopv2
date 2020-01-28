@@ -42,7 +42,11 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
 
     @Override
     public Optional<Bucket> get(Long id) throws DataProcessingException {
-        String query = "SELECT * FROM buckets WHERE buckets.bucket_id = ?";
+        String query = "SELECT * FROM buckets WHERE bucket_id = ?";
+        return getBucket(query, id);
+    }
+
+    public Optional<Bucket> getBucket(String query, Long id) throws DataProcessingException {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
@@ -51,7 +55,7 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
                 bucket.setUserId(rs.getLong("user_id"));
                 bucket.setId(rs.getLong("bucket_id"));
             }
-            bucket.setItems(getAllItems(id));
+            bucket.setItems(getAllItems(bucket.getId()));
             return Optional.of(bucket);
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to get bucket by id: " + id + e);
@@ -69,8 +73,6 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
     public boolean deleteById(Long id) throws DataProcessingException {
         if (get(id).isPresent()) {
             deleteBucketItems(get(id).get());
-        } else {
-            throw new DataProcessingException("Failed to delete bucket with id: " + id);
         }
         String query = "DELETE FROM buckets WHERE bucket_id=?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -134,23 +136,14 @@ public class BucketDaoJdbcImpl extends AbstractDao<Bucket> implements BucketDao 
 
     @Override
     public Optional<Bucket> getByUserId(Long userId) throws DataProcessingException {
-        String query = "SELECT * FROM buckets WHERE user_id = ?;";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return get(resultSet.getLong("bucket_id"));
-            }
-        } catch (SQLException e) {
-            throw new DataProcessingException("Can't get bucket by user's id " + userId + e);
-        }
-        return Optional.empty();
+        String query = "SELECT * FROM buckets WHERE user_id = ?";
+        return getBucket(query, userId);
     }
 
     private List<Item> getAllItems(Long id) throws DataProcessingException {
         List<Item> items = new ArrayList<>();
         String query = "SELECT * FROM bucket_items INNER JOIN items ON bucket_items.item_id "
-                + "= items.item_id WHERE bucket_id = ?";
+                + "= items.item_id WHERE bucket_items.bucket_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();

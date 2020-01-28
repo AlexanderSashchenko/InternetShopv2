@@ -31,10 +31,10 @@ public class AddItemToBucketController extends HttpServlet {
             String itemId = req.getParameter("item_id");
             Item item = itemService.get(Long.parseLong(itemId));
             bucketService.addItem(bucket, item);
-            resp.sendRedirect(req.getContextPath() + "/servlet/allItems");
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to add item to bucket", e);
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/servlet/allItems");
     }
 }

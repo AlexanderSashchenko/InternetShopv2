@@ -34,10 +34,10 @@ public class CompleteOrderController extends HttpServlet {
             items = bucketService.getByUserId(userId).getItems();
             orderService.completeOrder(items, userService.get(userId));
             bucketService.clear(bucketService.getByUserId(userId));
-            resp.sendRedirect(req.getContextPath() + "/servlet/getAllUserOrders");
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to complete order");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/servlet/getAllUserOrders");
     }
 }
