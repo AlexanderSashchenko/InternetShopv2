@@ -138,6 +138,15 @@
         <servlet-name>injectDataController</servlet-name>
         <url-pattern>/inject</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>errorController</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.DataProcessingErrorController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>errorController</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
     
     <filter>
         <filter-name>authFilter</filter-name>

@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.BucketDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Bucket;
 import mate.academy.internetshop.storage.IdGenerator;
@@ -54,5 +55,10 @@ public class BucketDaoImpl implements BucketDao {
     @Override
     public List<Bucket> getAllEntities() {
         return Storage.buckets;
+    }
+
+    @Override
+    public Optional<Bucket> getByUserId(Long id) throws DataProcessingException {
+        return Optional.empty();
     }
 }

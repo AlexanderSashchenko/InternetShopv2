@@ -7,14 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
 
 public class RegistrationController extends HttpServlet {
 
     @Inject
     private static UserService userService;
+
+    private static Logger LOGGER = Logger.getLogger(RegistrationController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -24,7 +28,7 @@ public class RegistrationController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
@@ -37,9 +41,14 @@ public class RegistrationController extends HttpServlet {
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
-        User newUser = userService.create(user);
-        HttpSession session = req.getSession(true);
-        session.setAttribute("userId", newUser.getId());
-        resp.sendRedirect(req.getContextPath() + "/index");
+        try {
+            User newUser = userService.create(user);
+            HttpSession session = req.getSession(true);
+            session.setAttribute("userId", newUser.getId());
+            resp.sendRedirect(req.getContextPath() + "/index");
+        } catch (DataProcessingException e) {
+            LOGGER.error("Registration failed");
+            resp.sendRedirect(req.getContextPath() + "/error");
+        }
     }
 }

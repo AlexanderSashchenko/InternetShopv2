@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import mate.academy.internetshop.dao.OrderDao;
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Dao;
 import mate.academy.internetshop.model.Order;
 import mate.academy.internetshop.storage.IdGenerator;
@@ -55,5 +56,10 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getAllEntities() {
         return Storage.orders;
+    }
+
+    @Override
+    public List<Order> getAllUserOrders(Long id) throws DataProcessingException {
+        return null;
     }
 }
