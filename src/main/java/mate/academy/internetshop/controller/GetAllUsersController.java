@@ -1,7 +1,6 @@
 package mate.academy.internetshop.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,14 +23,13 @@ public class GetAllUsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        List<User> users = new ArrayList<>();
         try {
-            users = userService.getAllEntities();
+            List<User> users = userService.getAllEntities();
+            req.setAttribute("users", users);
+            req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
         } catch (DataProcessingException e) {
             LOGGER.error("Failed to get users list");
-            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
+            resp.sendRedirect(req.getContextPath() + "/error");
         }
-        req.setAttribute("users", users);
-        req.getRequestDispatcher("/WEB-INF/views/allUsers.jsp").forward(req, resp);
     }
 }
