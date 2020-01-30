@@ -17,21 +17,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.Role;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
+import org.apache.log4j.Logger;
 
 public class AuthorizationFilter implements Filter {
 
     public static final String EMPTY_STRING = "";
+
     @Inject
     private static UserService userService;
+
+    private static Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);
 
     private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         protectedUrls.put("/servlet/addItem", ADMIN);
         protectedUrls.put("/servlet/allUsers", ADMIN);
         protectedUrls.put("/servlet/deleteUser", ADMIN);
@@ -61,15 +66,20 @@ public class AuthorizationFilter implements Filter {
         }
 
         Long userId = (Long) session.getAttribute("userId");
-        Optional<User> user = Optional.ofNullable(userService.get(userId));
-        if (user.isPresent()) {
-            if (verifyRole(user.get(), roleName)) {
-                filterChain.doFilter(req, resp);
+        try {
+            Optional<User> user = Optional.ofNullable(userService.get(userId));
+            if (user.isPresent()) {
+                if (verifyRole(user.get(), roleName)) {
+                    filterChain.doFilter(req, resp);
+                } else {
+                    processDenied(req, resp);
+                }
             } else {
-                processDenied(req, resp);
+                processUnauthenticated(req, resp);
             }
-        } else {
-            processUnauthenticated(req, resp);
+        } catch (DataProcessingException e) {
+            LOGGER.error("Authorization fail: failed to get user");
+            resp.sendRedirect(req.getContextPath() + "/error");
         }
     }
 
