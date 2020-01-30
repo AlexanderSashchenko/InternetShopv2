@@ -23,11 +23,9 @@ public class HashUtil {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
             messageDigest.update(salt);
             byte[] digest = messageDigest.digest(password.getBytes());
-
             for (byte b : digest) {
                 hashedPassword.append(String.format("%02x", b));
             }
-            System.out.println();
         } catch (NoSuchAlgorithmException e) {
             LOGGER.error("Hashing error" + e);
         }

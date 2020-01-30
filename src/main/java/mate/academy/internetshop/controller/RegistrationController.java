@@ -11,7 +11,6 @@ import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
 import mate.academy.internetshop.model.User;
 import mate.academy.internetshop.service.UserService;
-import mate.academy.internetshop.util.HashUtil;
 import org.apache.log4j.Logger;
 
 public class RegistrationController extends HttpServlet {
@@ -37,8 +36,7 @@ public class RegistrationController extends HttpServlet {
         String lastName = req.getParameter("lastName");
 
         User user = new User(login);
-        user.setSalt(HashUtil.getSalt());
-        user.setPassword(HashUtil.hashPassword(password, user.getSalt()));
+        user.setPassword(password);
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
