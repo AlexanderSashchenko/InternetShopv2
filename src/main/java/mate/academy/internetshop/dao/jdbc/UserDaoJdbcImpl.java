@@ -43,15 +43,16 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public User create(User entity) throws DataProcessingException {
-        String query = "INSERT INTO users (login, password, email, first_name, last_name) "
-                + "VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (login, password, salt, email, first_name, last_name) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query,
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, entity.getLogin());
             statement.setString(2, entity.getPassword());
-            statement.setString(3, entity.getEmail());
-            statement.setString(4, entity.getFirstName());
-            statement.setString(5, entity.getLastName());
+            statement.setBytes(3, entity.getSalt());
+            statement.setString(4, entity.getEmail());
+            statement.setString(5, entity.getFirstName());
+            statement.setString(6, entity.getLastName());
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             while (rs.next()) {
@@ -83,15 +84,16 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public User update(User entity) throws DataProcessingException {
-        String query = "UPDATE users SET login=?, password=?, "
+        String query = "UPDATE users SET login=?, password=?, salt=?, "
                 + "email=?, first_name=?, last_name=? WHERE user_id=?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, entity.getLogin());
             statement.setString(2, entity.getPassword());
-            statement.setString(3, entity.getEmail());
-            statement.setString(4, entity.getFirstName());
-            statement.setString(5, entity.getLastName());
-            statement.setLong(6, entity.getId());
+            statement.setBytes(3, entity.getSalt());
+            statement.setString(4, entity.getEmail());
+            statement.setString(5, entity.getFirstName());
+            statement.setString(6, entity.getLastName());
+            statement.setLong(7, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to update user" + e);
@@ -164,6 +166,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         User user = new User(rs.getString("login"));
         user.setId(rs.getLong("user_id"));
         user.setPassword(rs.getString("password"));
+        user.setSalt(rs.getBytes("salt"));
         user.setEmail(rs.getString("email"));
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));

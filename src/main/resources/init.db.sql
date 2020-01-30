@@ -146,33 +146,10 @@ ALTER TABLE `internetshop`.`buckets`
             ON DELETE NO ACTION
             ON UPDATE NO ACTION;
 
+ALTER TABLE `internetshop`.`users`
+    CHANGE COLUMN `password` `password` VARCHAR(256) NOT NULL ,
+    CHANGE COLUMN `salt` `salt` VARBINARY(256) NOT NULL ;
+
 INSERT INTO `internetshop`.`items` (`title`, `price`) VALUES ('xiaomi laptop', '999.99');
 INSERT INTO `internetshop`.`items` (`title`, `price`) VALUES ('samsung smartphone', '499.99');
 
-SELECT * FROM `internetshop`.`items` WHERE item_id=1;
-
-UPDATE `internetshop`.`items` SET `title`='updated title', `price`='000.01' WHERE "item_id"=1;
-
-DELETE FROM `internetshop`.`items` WHERE "item_id"=2;
-
-SELECT * FROM `internetshop`.`items`;
-
-INSERT INTO `internetshop`.`users`
-    (`login`, `password`, `email`, `first_name`, `last_name`)
-    VALUES ('alex', 'xela', 'test@test.com', 'A', 'B');
-
-INSERT INTO `internetshop`.`users`
-(`login`, `password`, `email`, `first_name`, `last_name`)
-VALUES ('vlad', 'dalv', 'test2@test.com', 'A', 'B');
-
-SELECT * FROM `internetshop`.`users` WHERE user_id=1;
-
-UPDATE `internetshop`.`users`
-SET `login`='alex1', `password`='1xela', `email`='test1@test.com', `first_name`='C', `last_name`='D'
-WHERE "user_id"=1;
-
-DELETE FROM `internetshop`.`users` WHERE "user_id"=2;
-
-SELECT * FROM `internetshop`.`users` WHERE login='alex1';
-
-SELECT * FROM `internetshop`.`users`;
