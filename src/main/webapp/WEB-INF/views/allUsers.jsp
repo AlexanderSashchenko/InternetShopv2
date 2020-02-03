@@ -8,7 +8,7 @@
     <title>All Users</title>
 </head>
 <body>
-<h1>Hello Mates! All Users List Is Here</h1><br />
+<h1>All Users List</h1><br />
     <table bgcolor="#5f9ea0" border="1">
         <tr>
             <th>ID</th>

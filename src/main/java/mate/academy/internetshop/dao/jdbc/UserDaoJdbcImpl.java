@@ -30,15 +30,15 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, login);
             ResultSet rs = statement.executeQuery();
-            User user = new User();
-            while (rs.next()) {
-                user = extractUser(rs);
+            if (rs.next()) {
+                User user = extractUser(rs);
                 user.setRoles(getAllRoles(rs.getLong("user_id")));
+                return Optional.of(user);
             }
-            return Optional.of(user);
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to find user by login" + e);
         }
+        return Optional.empty();
     }
 
     @Override
@@ -71,15 +71,15 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            User user = new User();
-            while (rs.next()) {
-                user = extractUser(rs);
+            if (rs.next()) {
+                User user = extractUser(rs);
                 user.setRoles(getAllRoles(id));
+                return Optional.of(user);
             }
-            return Optional.of(user);
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to get user by id" + e);
         }
+        return Optional.empty();
     }
 
     @Override

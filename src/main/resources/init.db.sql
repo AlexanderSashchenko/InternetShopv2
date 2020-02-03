@@ -11,7 +11,8 @@ CREATE TABLE `internetshop`.`items` (
 CREATE TABLE `internetshop`.`users` (
     `user_id` INT NOT NULL AUTO_INCREMENT,
     `login` VARCHAR(45) NOT NULL,
-    `password` VARCHAR(45) NOT NULL,
+    `password` VARCHAR(256) NOT NULL,
+    `salt` VARBINARY(256) NOT NULL,
     `email` VARCHAR(90) NULL,
     `first_name` TEXT NULL,
     `last_name` TEXT NULL,
@@ -48,14 +49,6 @@ CREATE TABLE `internetshop`.`user_roles` (
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE `internetshop`.`user_orders` (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `user_id` INT NOT NULL,
-    `order_id` INT NOT NULL,
-    PRIMARY KEY (`id`))
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8;
-
 CREATE TABLE `internetshop`.`order_items` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `order_id` INT NOT NULL,
@@ -85,22 +78,6 @@ ALTER TABLE `internetshop`.`user_roles`
     ADD CONSTRAINT `user_roles_to_roles_fk`
         FOREIGN KEY (`role_id`)
             REFERENCES `internetshop`.`roles` (`role_id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION;
-
-ALTER TABLE `internetshop`.`user_orders`
-    ADD INDEX `user_orders_to_users_fk_idx` (`user_id` ASC) VISIBLE,
-    ADD INDEX `user_orders_to_orders_fk_idx` (`order_id` ASC) VISIBLE;
-;
-ALTER TABLE `internetshop`.`user_orders`
-    ADD CONSTRAINT `user_orders_to_users_fk`
-        FOREIGN KEY (`user_id`)
-            REFERENCES `internetshop`.`users` (`user_id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-    ADD CONSTRAINT `user_orders_to_orders_fk`
-        FOREIGN KEY (`order_id`)
-            REFERENCES `internetshop`.`orders` (`order_id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION;
 
@@ -146,10 +123,20 @@ ALTER TABLE `internetshop`.`buckets`
             ON DELETE NO ACTION
             ON UPDATE NO ACTION;
 
-ALTER TABLE `internetshop`.`users`
-    CHANGE COLUMN `password` `password` VARCHAR(256) NOT NULL ,
-    CHANGE COLUMN `salt` `salt` VARBINARY(256) NOT NULL ;
+ALTER TABLE `internetshop`.`orders`
+    ADD INDEX `orders_to_users_fk_idx` (`user_id` ASC) VISIBLE;
+;
+ALTER TABLE `internetshop`.`orders`
+    ADD CONSTRAINT `orders_to_users_fk`
+        FOREIGN KEY (`user_id`)
+            REFERENCES `internetshop`.`users` (`user_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
 
-INSERT INTO `internetshop`.`items` (`title`, `price`) VALUES ('xiaomi laptop', '999.99');
-INSERT INTO `internetshop`.`items` (`title`, `price`) VALUES ('samsung smartphone', '499.99');
+INSERT INTO `internetshop`.`items` (`title`, `price`) VALUES ('test_item_1', '999.99');
+INSERT INTO `internetshop`.`items` (`title`, `price`) VALUES ('test_item_2', '100');
+INSERT INTO `internetshop`.`items` (`title`, `price`) VALUES ('test_item_3', '0');
+
+INSERT INTO `internetshop`.`roles` (`role_id`, `role_name`) VALUES ('1', 'USER');
+INSERT INTO `internetshop`.`roles` (`role_id`, `role_name`) VALUES ('2', 'ADMIN');
 

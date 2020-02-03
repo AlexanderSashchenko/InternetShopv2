@@ -1,6 +1,7 @@
 package mate.academy.internetshop.controller;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,13 @@ public class AddNewItemController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        try {
+            List<Item> items = itemService.getAllEntities();
+            req.setAttribute("items", items);
+        } catch (DataProcessingException e) {
+            LOGGER.error("Failed to add new item");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
+        }
         req.getRequestDispatcher("/WEB-INF/views/addItem.jsp").forward(req, resp);
     }
 

@@ -61,4 +61,9 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setItems(items);
         return orderDao.create(newOrder);
     }
+
+    @Override
+    public boolean deleteAllUserOrders(Long id) throws DataProcessingException {
+        return orderDao.deleteAllUserOrders(id);
+    }
 }

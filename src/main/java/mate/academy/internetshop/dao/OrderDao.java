@@ -7,5 +7,7 @@ import mate.academy.internetshop.model.Order;
 
 public interface OrderDao extends DaoGeneric<Order, Long> {
 
-    public List<Order> getAllUserOrders(Long id) throws DataProcessingException;
+    List<Order> getAllUserOrders(Long id) throws DataProcessingException;
+
+    boolean deleteAllUserOrders(Long id) throws DataProcessingException;
 }
