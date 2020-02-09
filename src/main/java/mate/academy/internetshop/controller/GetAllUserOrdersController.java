@@ -15,13 +15,11 @@ import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 public class GetAllUserOrdersController extends HttpServlet {
-
+    private static final Logger LOGGER = Logger.getLogger(GetAllUserOrdersController.class);
     @Inject
     private static OrderService orderService;
     @Inject
     private static UserService userService;
-
-    private static Logger LOGGER = Logger.getLogger(GetAllUserOrdersController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

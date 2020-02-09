@@ -16,7 +16,6 @@ import mate.academy.internetshop.model.Item;
 
 @Dao
 public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
-
     public ItemDaoJdbcImpl(Connection connection) {
         super(connection);
     }

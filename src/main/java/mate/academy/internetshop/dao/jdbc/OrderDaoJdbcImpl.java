@@ -17,7 +17,6 @@ import mate.academy.internetshop.model.Order;
 
 @Dao
 public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
-
     public OrderDaoJdbcImpl(Connection connection) {
         super(connection);
     }
@@ -91,18 +90,40 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM orders";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                Order order = new Order();
-                order.setId(rs.getLong("order_id"));
-                order.setUserId(rs.getLong("user_id"));
-                order.setItems(getAllItems(rs.getLong("order_id")));
-                orders.add(order);
-            }
+            extractOrders(orders, statement);
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to get orders list" + e);
         }
         return orders;
+    }
+
+    @Override
+    public List<Order> getAllUserOrders(Long id) throws DataProcessingException {
+        String query = "SELECT * FROM orders WHERE user_id = ?";
+        List<Order> orders = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
+            extractOrders(orders, statement);
+        } catch (SQLException e) {
+            throw new DataProcessingException("Failed to get all user orders" + e);
+        }
+        return orders;
+    }
+
+    @Override
+    public boolean deleteAllUserOrders(Long id) throws DataProcessingException {
+        List<Order> orders = getAllUserOrders(id);
+        for (Order order : orders) {
+            deleteOrderItems(order);
+        }
+        String query = "DELETE FROM orders WHERE user_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Failed to delete all user orders" + e);
+        }
     }
 
     private void insertOrderItems(Order entity) throws DataProcessingException {
@@ -148,39 +169,15 @@ public class OrderDaoJdbcImpl extends AbstractDao<Order> implements OrderDao {
         return items;
     }
 
-    @Override
-    public List<Order> getAllUserOrders(Long id) throws DataProcessingException {
-        String query = "SELECT * FROM orders WHERE user_id = ?";
-        List<Order> orders = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                Order order = new Order();
-                order.setId(rs.getLong("order_id"));
-                order.setUserId(rs.getLong("user_id"));
-                order.setItems(getAllItems(rs.getLong("order_id")));
-                orders.add(order);
-            }
-        } catch (SQLException e) {
-            throw new DataProcessingException("Failed to get all user orders" + e);
-        }
-        return orders;
-    }
-
-    @Override
-    public boolean deleteAllUserOrders(Long id) throws DataProcessingException {
-        List<Order> orders = getAllUserOrders(id);
-        for (Order order : orders) {
-            deleteOrderItems(order);
-        }
-        String query = "DELETE FROM orders WHERE user_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, id);
-            statement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            throw new DataProcessingException("Failed to delete all user orders" + e);
+    private void extractOrders(List<Order> orders, PreparedStatement statement)
+            throws SQLException, DataProcessingException {
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            Order order = new Order();
+            order.setId(rs.getLong("order_id"));
+            order.setUserId(rs.getLong("user_id"));
+            order.setItems(getAllItems(rs.getLong("order_id")));
+            orders.add(order);
         }
     }
 }

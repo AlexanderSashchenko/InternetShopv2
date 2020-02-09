@@ -13,11 +13,9 @@ import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 public class InjectDataController extends HttpServlet {
-
+    private static final Logger LOGGER = Logger.getLogger(InjectDataController.class);
     @Inject
     private static UserService userService;
-
-    private static Logger LOGGER = Logger.getLogger(InjectDataController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

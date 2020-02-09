@@ -25,14 +25,10 @@ import mate.academy.internetshop.service.UserService;
 import org.apache.log4j.Logger;
 
 public class AuthorizationFilter implements Filter {
-
-    public static final String EMPTY_STRING = "";
-
+    private static final String EMPTY_STRING = "";
+    private static final Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);
     @Inject
     private static UserService userService;
-
-    private static Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);
-
     private Map<String, Role.RoleName> protectedUrls = new HashMap<>();
 
     @Override

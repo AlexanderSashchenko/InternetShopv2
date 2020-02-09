@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Bucket {
-
     private Long id;
     private Long userId;
     private List<Item> items;

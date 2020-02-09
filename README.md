@@ -1,12 +1,12 @@
 # Internet-shop, a Java practice project
 
-# Table of Contents
+### Table of Contents
    * [Project purpose](#purpose)
    * [Project structure](#structure)
    * [For a developer](#developer-start)
    * [Authors](#authors)
 
-# <a name="purpose">Project purpose</a>
+### <a name="purpose">Project purpose</a>
     The project is a simple example of an internet shop implementation.
     The purpose of this project is to gain experience and apply knowledge to practice
     for listed below technologies stack:
@@ -18,11 +18,12 @@
     * Log4j 1.2.7
     * JSTL 1.2
 
-# <a name="structure">Project Structure</a>
+### <a name="structure">Project Structure</a>
     The project uses the most common design patterns:
     * Model-view-controller;
     * Data Access Object;
     * Dependency Injection;
+    * Factory;
 
     The models used in the project are:
     * Role;
@@ -37,7 +38,7 @@
     with 'ADMIN' role. While 'USER' role is granted by default after registration, 'ADMIN' role
     should be set directly at the database.
 
-# <a name="developer-start">For a developer</a>
+### <a name="developer-start">For a developer</a>
 
     Open the project in your IDE and add it as maven project.
     * Configure Tomcat:
@@ -51,6 +52,5 @@
     disc if required;
     * Run the project.
 
-# <a name="authors">Authors</a>
-Created by a github user [Alexander Sashchenko](https://github.com/AlexanderSashchenko) 
-for a self-educational purpose.
+### <a name="authors">Authors</a>
+[Alexander Sashchenko](https://github.com/AlexanderSashchenko) 

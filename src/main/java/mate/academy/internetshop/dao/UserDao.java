@@ -6,6 +6,5 @@ import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.model.User;
 
 public interface UserDao extends DaoGeneric<User, Long> {
-
     Optional<User> findByLogin(String login) throws DataProcessingException;
 }

@@ -11,11 +11,9 @@ import mate.academy.internetshop.service.ItemService;
 import org.apache.log4j.Logger;
 
 public class DeleteItemController extends HttpServlet {
-
+    private static final Logger LOGGER = Logger.getLogger(DeleteItemController.class);
     @Inject
     private static ItemService itemService;
-
-    private static Logger LOGGER = Logger.getLogger(DeleteItemController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

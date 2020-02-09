@@ -15,7 +15,6 @@ import mate.academy.internetshop.util.HashUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     @Inject
     private static UserDao userDao;
 
@@ -30,11 +29,6 @@ public class UserServiceImpl implements UserService {
     public User get(Long id) throws NoSuchElementException, DataProcessingException {
         return userDao.get(id).orElseThrow(() ->
                 new NoSuchElementException("Can't find user with id: " + id));
-    }
-
-    @Override
-    public User update(User user) throws DataProcessingException {
-        return userDao.update(user);
     }
 
     @Override

@@ -19,7 +19,6 @@ import mate.academy.internetshop.model.User;
 
 @Dao
 public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
-
     public UserDaoJdbcImpl(Connection connection) {
         super(connection);
     }
@@ -47,12 +46,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
                 + "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query,
                 Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, entity.getLogin());
-            statement.setString(2, entity.getPassword());
-            statement.setBytes(3, entity.getSalt());
-            statement.setString(4, entity.getEmail());
-            statement.setString(5, entity.getFirstName());
-            statement.setString(6, entity.getLastName());
+            setUserData(entity, statement);
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             while (rs.next()) {
@@ -87,12 +81,7 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
         String query = "UPDATE users SET login=?, password=?, salt=?, "
                 + "email=?, first_name=?, last_name=? WHERE user_id=?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, entity.getLogin());
-            statement.setString(2, entity.getPassword());
-            statement.setBytes(3, entity.getSalt());
-            statement.setString(4, entity.getEmail());
-            statement.setString(5, entity.getFirstName());
-            statement.setString(6, entity.getLastName());
+            setUserData(entity, statement);
             statement.setLong(7, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -139,6 +128,15 @@ public class UserDaoJdbcImpl extends AbstractDao<User> implements UserDao {
             throw new DataProcessingException("Failed to get users list" + e);
         }
         return users;
+    }
+
+    private void setUserData(User entity, PreparedStatement statement) throws SQLException {
+        statement.setString(1, entity.getLogin());
+        statement.setString(2, entity.getPassword());
+        statement.setBytes(3, entity.getSalt());
+        statement.setString(4, entity.getEmail());
+        statement.setString(5, entity.getFirstName());
+        statement.setString(6, entity.getLastName());
     }
 
     private void deleteUserRoles(User entity) throws DataProcessingException {
