@@ -13,7 +13,6 @@ import mate.academy.internetshop.controller.InjectInitializer;
 import org.apache.log4j.Logger;
 
 public class Injector {
-
     private static final Logger LOGGER = Logger.getLogger(InjectInitializer.class);
     private static final String PROJECT_MAIN_PACKAGE = "mate.academy.internetshop";
     private static List<Class> classes = new ArrayList<>();

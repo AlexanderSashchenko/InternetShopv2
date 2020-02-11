@@ -8,7 +8,7 @@
     <title>Bucket</title>
 </head>
 <body>
-<h1>View All Items In Bucket</h1>
+<h1>Items In Bucket</h1>
     <table bgcolor="#5f9ea0" border="1">
         <tr>
             <th>ID</th>

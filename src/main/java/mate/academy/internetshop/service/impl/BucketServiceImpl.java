@@ -14,7 +14,6 @@ import mate.academy.internetshop.service.BucketService;
 
 @Service
 public class BucketServiceImpl implements BucketService {
-
     @Inject
     private static BucketDao bucketDao;
 
@@ -27,11 +26,6 @@ public class BucketServiceImpl implements BucketService {
     public Bucket get(Long id) throws NoSuchElementException, DataProcessingException {
         return bucketDao.get(id).orElseThrow(() ->
                 new NoSuchElementException("Can't find item with id: " + id));
-    }
-
-    @Override
-    public Bucket update(Bucket bucket) throws DataProcessingException {
-        return bucketDao.update(bucket);
     }
 
     @Override
@@ -65,11 +59,6 @@ public class BucketServiceImpl implements BucketService {
     public void clear(Bucket bucket) throws DataProcessingException {
         bucket.getItems().clear();
         bucketDao.update(bucket);
-    }
-
-    @Override
-    public List<Item> getAllItems(Bucket bucket) {
-        return bucket.getItems();
     }
 
     @Override

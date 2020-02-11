@@ -12,13 +12,11 @@ import mate.academy.internetshop.service.ItemService;
 import org.apache.log4j.Logger;
 
 public class DeleteItemFromBucketController extends HttpServlet {
-
+    private static final Logger LOGGER = Logger.getLogger(DeleteItemFromBucketController.class);
     @Inject
     private static BucketService bucketService;
     @Inject
     private static ItemService itemService;
-
-    private static Logger LOGGER = Logger.getLogger(DeleteItemFromBucketController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

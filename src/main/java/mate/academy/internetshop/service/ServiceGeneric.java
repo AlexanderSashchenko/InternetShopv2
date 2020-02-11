@@ -5,12 +5,9 @@ import java.util.List;
 import mate.academy.internetshop.exceptions.DataProcessingException;
 
 public interface ServiceGeneric<T, N> {
-
     T create(T entity) throws DataProcessingException;
 
     T get(N id) throws DataProcessingException;
-
-    T update(T entity) throws DataProcessingException;
 
     boolean deleteById(N id) throws DataProcessingException;
 

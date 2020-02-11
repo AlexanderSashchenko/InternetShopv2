@@ -16,7 +16,6 @@ import mate.academy.internetshop.model.Item;
 
 @Dao
 public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
-
     public ItemDaoJdbcImpl(Connection connection) {
         super(connection);
     }
@@ -44,7 +43,7 @@ public class ItemDaoJdbcImpl extends AbstractDao<Item> implements ItemDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 Item item = new Item(rs.getString("title"), rs.getBigDecimal("price").toString());
                 item.setId(rs.getLong("item_id"));
                 return Optional.of(item);

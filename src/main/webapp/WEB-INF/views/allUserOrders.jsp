@@ -8,10 +8,10 @@
     <title>All User Orders</title>
 </head>
 <body>
-<h1>View All Orders By User!</h1>
+<h1>All Orders By User</h1>
     <table bgcolor="#5f9ea0" border="1">
         <tr>
-            <th>ID</th>
+            <th>Order ID</th>
             <th>Delete Order</th>
         </tr>
         <c:forEach var="order" items="${orders}">

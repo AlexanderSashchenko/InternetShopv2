@@ -4,7 +4,7 @@
     <title>Index</title>
 </head>
 <body>
-<h1>Hello mates! Make your choice!</h1>
+<h1>Make your choice!</h1>
 <a href="${pageContext.request.contextPath}/login">Sign in</a><br />
 <a href="${pageContext.request.contextPath}/registration">Sign up</a><br />
 <br>

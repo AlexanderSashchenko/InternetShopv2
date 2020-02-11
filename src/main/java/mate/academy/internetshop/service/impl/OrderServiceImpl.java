@@ -14,7 +14,6 @@ import mate.academy.internetshop.service.OrderService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-
     @Inject
     private static OrderDao orderDao;
 
@@ -27,11 +26,6 @@ public class OrderServiceImpl implements OrderService {
     public Order get(Long id) throws NoSuchElementException, DataProcessingException {
         return orderDao.get(id).orElseThrow(() ->
                 new NoSuchElementException("Can't find bucket order id: " + id));
-    }
-
-    @Override
-    public Order update(Order order) throws DataProcessingException {
-        return orderDao.update(order);
     }
 
     @Override
@@ -60,5 +54,10 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setUserId(user.getId());
         newOrder.setItems(items);
         return orderDao.create(newOrder);
+    }
+
+    @Override
+    public boolean deleteAllUserOrders(Long id) throws DataProcessingException {
+        return orderDao.deleteAllUserOrders(id);
     }
 }

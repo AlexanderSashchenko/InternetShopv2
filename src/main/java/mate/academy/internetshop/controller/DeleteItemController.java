@@ -1,33 +1,30 @@
 package mate.academy.internetshop.controller;
 
 import java.io.IOException;
-import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mate.academy.internetshop.exceptions.DataProcessingException;
 import mate.academy.internetshop.lib.Inject;
-import mate.academy.internetshop.model.Item;
 import mate.academy.internetshop.service.ItemService;
 import org.apache.log4j.Logger;
 
-public class GetAllItemsController extends HttpServlet {
-    private static final Logger LOGGER = Logger.getLogger(GetAllItemsController.class);
+public class DeleteItemController extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(DeleteItemController.class);
     @Inject
     private static ItemService itemService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
+        Long itemId = Long.valueOf(req.getParameter("item_id"));
         try {
-            List<Item> items = itemService.getAllEntities();
-            req.setAttribute("items", items);
-            req.getRequestDispatcher("/WEB-INF/views/allItems.jsp").forward(req, resp);
+            itemService.deleteById(itemId);
         } catch (DataProcessingException e) {
-            LOGGER.error("Failed to get items list");
-            resp.sendRedirect(req.getContextPath() + "/error");
+            LOGGER.error("Failed to delete item");
+            req.getRequestDispatcher("/WEB-INF/views/error.jsp");
         }
+        resp.sendRedirect(req.getContextPath() + "/servlet/addItem");
     }
 }

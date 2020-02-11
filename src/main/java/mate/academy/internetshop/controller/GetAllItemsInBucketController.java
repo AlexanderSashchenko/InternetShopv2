@@ -16,11 +16,9 @@ import mate.academy.internetshop.service.BucketService;
 import org.apache.log4j.Logger;
 
 public class GetAllItemsInBucketController extends HttpServlet {
-
+    private static final Logger LOGGER = Logger.getLogger(GetAllItemsInBucketController.class);
     @Inject
     private static BucketService bucketService;
-
-    private static Logger LOGGER = Logger.getLogger(GetAllItemsInBucketController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

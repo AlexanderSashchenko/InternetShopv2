@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class User {
-
     private Long id;
     private String login;
     private String password;
@@ -17,10 +16,6 @@ public class User {
 
     public User(String login) {
         this.login = login;
-    }
-
-    public User() {
-
     }
 
     public String getEmail() {

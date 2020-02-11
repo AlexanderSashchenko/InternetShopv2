@@ -10,6 +10,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>index</servlet-name>
+        <url-pattern>/</url-pattern>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
 
@@ -38,6 +39,15 @@
     <servlet-mapping>
         <servlet-name>allItems</servlet-name>
         <url-pattern>/servlet/allItems</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deleteItem</servlet-name>
+        <servlet-class>mate.academy.internetshop.controller.DeleteItemController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deleteItem</servlet-name>
+        <url-pattern>/servlet/deleteItem</url-pattern>
     </servlet-mapping>
 
     <servlet>
